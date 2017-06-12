@@ -3,7 +3,7 @@
 ## Introduction
 Get hands-on and learn how to build and deploy PostgreSQL Database Services and Ruby on Rails application on Azure.
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FKapilThakkar%2FMicrosoft-Azure-ROR%2Fmaster%2Ftemplate.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2FClick2Cloud%2FMicrosoft-Azure-ROR%2Fmaster%2Fdeploy%2Fazuredeploy.json" target="_blank">
       <img src="http://azuredeploy.net/deploybutton.png"/>
  </a>
 
@@ -19,9 +19,8 @@ Perform following steps to deploy Ruby on Rails web application in Azure and con
 4. Select __Location__ from the available locations for web application deployment.
 5. Select __App Service Plan__. It is pricing model for hosting application, default value is set to __F1__ which represent free service.
 6. The __Repo Url__ is the Github repository url of web application. The default value is set to the current GitHub repository Url which contains sample Ruby on Rails application source code which connects with PostgreSQL database created with the ARM template. Leave it as is for this demo
-7. Ths __Branch__ is branch name of Github repository where code resides, leave it as is for this demo.
 
-    <img src="https://github.com/aniketpawar92/Microsoft-Azure-ROR/blob/master/app/assets/images/azure_deploy.png"/>
+    <img src="https://github.com/Click2Cloud/Microsoft-Azure-ROR/blob/master/app/assets/images/azure_deploy.png"/>
 
 8. Provide the __Postgre SQL Compute Unit__ or leave it as it. [Learn more about Compute Unit](https://docs.microsoft.com/en-us/azure/postgresql/concepts-compute-unit-and-storage#what-are-compute-units)
 9. The __Postgre SQL Storage GB__ is the size of physical memory (in GB) for PostgreSQL Database. [Learn more about Storage Unit](https://docs.microsoft.com/en-us/azure/postgresql/concepts-compute-unit-and-storage#what-are-storage-units)
