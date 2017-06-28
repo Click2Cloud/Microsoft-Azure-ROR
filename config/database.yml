@@ -6,12 +6,21 @@
 #
 default: &default
   adapter: postgresql
-  azure_db_url: <%= ENV['POSTGRESCON'] %>
-
+  Postgres.connstr: <%= ENV['postgresqlConnectionString'] %>
+  apiKey: <%= ENV['searchServicePrimaryKey'] %>
+  serviceURL: <%= ENV['searchServiceUri'] %>
+  pgAdminUser: <%= ENV['pgAdminUser'] %>
+  Azuresearch.indexName: 'azure-search-data'
+  Azuresearch.apiVersion: '2015-02-28-Preview'
+  
 azure_dayplanner_db:
   adapter: postgresql
-  azure_db_url: <%= ENV['POSTGRESCON'] %>
-  
+  Postgres.connstr: <%= ENV['postgresqlConnectionString'] %>
+  apiKey: <%= ENV['searchServicePrimaryKey'] %>
+  serviceURL: <%= ENV['searchServiceUri'] %>
+  pgAdminUser: <%= ENV['pgAdminUser'] %>
+  Azuresearch.indexName: 'azure-search-data'
+  Azuresearch.apiVersion: '2015-02-28-Preview'
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

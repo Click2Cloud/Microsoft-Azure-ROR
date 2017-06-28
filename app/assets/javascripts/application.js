@@ -12,7 +12,6 @@
 //
 //= require jquery.min
 //= require bootstrap.min
-//= require datepicker/bootstrap.min
 //= require datepicker/bootstrap-datetimepicker
 //= require datepicker/locales/bootstrap-datetimepicker.uk
 //= require datepicker

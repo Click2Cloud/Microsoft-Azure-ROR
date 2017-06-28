@@ -193,6 +193,3 @@ function reset_engangement() {
     selected_start_time = "";
     selected_end_time = "";
 }
-function initMap() {
-
-}

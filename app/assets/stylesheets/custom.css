@@ -6,6 +6,16 @@
   background-color: #eee;
 }
 
+#parentdiv {
+    margin-top: 100px;
+}
+
+@media only screen and (max-width: 1024px) {
+    #parentdiv {
+        margin-top: 0px !important;
+    }
+}
+
 .container-map{
     width:100%;
 }

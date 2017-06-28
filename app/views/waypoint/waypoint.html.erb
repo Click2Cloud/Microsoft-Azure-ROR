@@ -46,6 +46,27 @@
                     <span data-toggle="calendar" class="fa fa-calendar"></span>
                 </div>
             </div>
+			<div class="col-lg-8"><br>
+            <div id="parentdiv">			
+              <div id="btnddl" style="margin-left:10px;width:305px;" class="dropdown btn-group">
+                <button id="btnnew" type="button" data-toggle="dropdown" title="Select Engagement for Azure Geo-spatial Search" class="btn btn-default col-md-12 dropdown-toggle"><span id="title" style="text-align: left;" class="col-md-12">Select Engagement </span><span class="caret"></span></button>
+                <ul style="top: 30px;" class="dropdown-menu col-xs-12"> 				
+				</ul>
+              </div>
+              <div id="btndistance" style="margin-left:10px;width:135px;" class="btn-group">
+                <button title="Select Distance in miles for Azure Geo-spatial Search" type="button" data-toggle="dropdown" class="btn btn-default col-md-12 dropdown-toggle"><span id="disttitle" style="text-align: left;" class="col-md-12">Select Range</span><span class="caret"></span></button>
+                <ul style="top: 30px;min-width: 75px !important;" class="dropdown-menu col-xs-12">
+                  <li data-value="1.60934"><a>1 mi</a></li>
+                  <li data-value="3.21869"><a>2 mi</a></li>
+                  <li data-value="4.82803"><a>3 mi</a></li>
+                  <li data-value="6.43738"><a>4 mi</a></li>
+                  <li data-value="8.04672"><a>5 mi</a></li>
+                </ul>
+              </div>
+              <button id="btnazuresearch" style="margin: 0px 10px 0px 10px;" type="button" data-toggle="tooltip" title="GeoSpatial search using Azure Search Service" class="btn">Search Coffee Shops</button>
+              <button id="btnclear" type="button" data-toggle="tooltip" title="Reset" class="btn"><i aria-hidden="true" class="fa fa-refresh"></i></button>
+            </div>
+          </div>
         </div>
     </div>
 
@@ -53,7 +74,6 @@
         <div class="row" style="margin-left: -30px !important;">
             <div class="col-lg-12">
               <div id="map" style="position:fixed !important;"></div>
-
             </div>
         </div>
     </div>

@@ -2,10 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {   
-    "appName": {
-      "defaultValue": "dayplanner-demo",
-      "type": "string"
-    },
     "repoUrl": {
       "type": "string",
       "defaultValue": "https://github.com/Click2Cloud/Microsoft-Azure-ROR",
@@ -54,7 +50,7 @@
     "postgresAdministratorPassword": {
         "type": "securestring",
         "metadata": {
-            "description": "The PostgreSQL database administrator password to use. The password must contain character from three of the following categories � English uppercase letters, English lowercase letters, number (0-9), and non-alphanumeric characters (!, $, #, %)."
+            "description": "The PostgreSQL database administrator password to use. The password must contain character from three of the following categories ? English uppercase letters, English lowercase letters, number (0-9), and non-alphanumeric characters (!, $, #, %)."
         }
     },
     "postgresVersion": {
@@ -93,14 +89,31 @@
       "metadata": {
         "description": "For CPU and Storage usage alerts, add email addresses separated by semicolons"
       }
+    },
+    "searchPricingTier": {
+      "type": "string",
+      "defaultValue": "free",
+      "allowedValues": [
+        "free",
+        "basic",
+        "standard",
+        "standard2",
+        "standard3"
+      ],
+      "metadata": {
+        "description": "The SKU of the search service you want to create. E.g. free or standard"
+      }
     }
   },
   "variables": {
+    "appName":"[concat('ror',uniqueString(resourceGroup().id))]",
     "servicePlanName": "[concat('serviceplan',uniqueString(resourceGroup().id))]",
     "serverName": "[concat('postgresql', uniqueString(resourceGroup().id))]",
     "databaseName": "dayplanner",
     "skuNamePG": "PGSQLS3M100",
-    "customEmails": "[split(parameters('postgresAlertsAdditionalAdministratorEmail(s)'), ';')]"
+    "customEmails": "[split(parameters('postgresAlertsAdditionalAdministratorEmail(s)'), ';')]",
+    "searchServiceName": "[concat('gis-service', uniqueString(resourceGroup().id))]"
+    
   },
   "resources": [
     {
@@ -216,6 +229,15 @@
         ]
     },
     {
+      "apiVersion": "2015-08-19",
+      "name": "[variables('searchServiceName')]",
+      "type": "Microsoft.Search/searchServices",
+      "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "[toLower(parameters('searchPricingTier'))]"
+      }
+    },
+    {
       "type": "Microsoft.Web/serverfarms",
       "name": "[variables('servicePlanName')]",
       "apiVersion": "2016-03-01",
@@ -233,11 +255,11 @@
     },
     {
       "type": "Microsoft.Web/sites",
-      "name": "[parameters('appName')]",
+      "name": "[variables('appName')]",
       "apiVersion": "2016-03-01",
       "location": "[resourceGroup().location]",
       "properties": {
-        "name": "[parameters('appName')]",
+        "name": "[variables('appName')]",
         "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
       },
       "dependsOn": [
@@ -249,8 +271,9 @@
           "type": "config",
           "apiVersion": "2016-03-01",
           "dependsOn": [
-            "[resourceId('Microsoft.Web/sites', parameters('appName'))]",
-            "[resourceId('Microsoft.DBforPostgreSQL/servers/', variables('serverName'))]"
+            "[resourceId('Microsoft.Web/sites', variables('appName'))]",
+            "[resourceId('Microsoft.DBforPostgreSQL/servers/', variables('serverName'))]",
+			"[resourceId('Microsoft.Search/searchServices', variables('searchServiceName'))]"
 
           ],
           "tags": {
@@ -259,7 +282,10 @@
           "properties": {
             "DOCKER_CUSTOM_IMAGE_NAME": "click2cloud/azure-rails",
             "GITURL": "[parameters('repoUrl')]",
-            "POSTGRESCON": "[concat('postgres://', parameters('postgresAdministratorLogin'), '%40',  variables('serverName'), ':', uriComponent(parameters('postgresAdministratorPassword')), '@', reference(resourceId('Microsoft.DBforPostgreSQL/servers/', variables('serverName'))).fullyQualifiedDomainName, ':5432/', variables('databaseName'), '?sslmode=require')]"
+            "postgresqlConnectionString": "[concat('postgres://', parameters('postgresAdministratorLogin'), '%40',  variables('serverName'), ':', uriComponent(parameters('postgresAdministratorPassword')), '@', reference(resourceId('Microsoft.DBforPostgreSQL/servers/', variables('serverName'))).fullyQualifiedDomainName, ':5432/', variables('databaseName'), '?sslmode=require')]",
+            "searchServicePrimaryKey": "[listAdminKeys(resourceId('Microsoft.Search/searchServices', variables('searchServiceName')), '2015-08-19').primaryKey]",
+            "searchServiceUri": "[concat('https://', variables('searchServiceName'), '.search.windows.net')]",
+            "pgAdminUser": "[parameters('postgresAdministratorLogin')]"
           }
         }
       ]
